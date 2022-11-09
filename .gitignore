@@ -1,0 +1,6 @@
+/target
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/vcs.xml
+/Cargo.lock
+/password_manager.iml
