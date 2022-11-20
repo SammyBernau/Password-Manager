@@ -4,16 +4,15 @@ mod encryption;
 mod test_encrypt;
 
 
-pub use crate::encryption::encrypt_password::final_number;
-use crate::test_encrypt::test_encrypt_one;
+// pub use crate::encryption::encrypt_password::final_number;
 // use openssl::sha::sha256;
+use crate::test_encrypt::aes_gcm_example;
 
 fn main() {
-    //println!("Cum");
-    // println!("{}",final_number(2));
-    //test_hash();
-    test_encrypt_one();
+    aes_gcm_example();
 }
+
+
 
 
 // fn test_hash(){
