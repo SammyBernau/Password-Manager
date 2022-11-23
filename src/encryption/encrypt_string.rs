@@ -2,7 +2,11 @@
 //https://asecuritysite.com/symmetric/rust_chacha20poly
 //https://medium.com/asecuritysite-when-bob-met-alice/the-near-perfect-encryption-method-and-the-best-programming-lanaguage-meet-aes-gcm-and-rust-33ef68c06677
 
-//TODO: Pretty sure i need a file encryption function not a string encryption function. Sooooo look at this link to do file encryption
+
+//https://blog.devgenius.io/reading-and-writing-a-json-file-in-rust-2731da8d6ad0
+
+//https://betterprogramming.pub/how-to-work-with-json-in-rust-35ddc964009e
+//https://docs.rs/json/latest/json/
 //https://github.com/skerkour/kerkour.com/blob/main/2021/rust_file_encryption/src/main.rs
 use crypto::{aead::AeadEncryptor, symmetriccipher::{ SynchronousStreamCipher}};
 use rustc_serialize::hex::FromHex;
@@ -73,17 +77,18 @@ fn get_str_middle_char(s: &str)->usize{
 }
 
 
-pub fn chacha20poly1305_encrypt(user_password: &str, mut msg_input: &str) {
+pub fn chacha20poly1305_encrypt(user_password: &str, mut msg_input: &str) -> (Vec<u8>, Vec<u8>) {
+    println!("ENCRYPTING...");
     let mut key = hex::encode(user_password);
     key = key_pad(key);
     let mut msg = msg_input;
     let mut my_iv =get_iv(user_password);
     let my_add ="lots of cum";
-    let args: Vec<String> = env::args().collect();
-
-    if args.len() >1 { msg = args[1].as_str();}
-    if args.len() >2 { key = args[2].as_str().parse().unwrap();}
-    if args.len() >3 { my_iv = args[3].as_str().parse().unwrap();}
+    // let args: Vec<String> = env::args().collect();
+    //
+    // if args.len() >1 { msg = args[1].as_str();}
+    // if args.len() >2 { key = args[2].as_str().parse().unwrap();}
+    // if args.len() >3 { my_iv = args[3].as_str().parse().unwrap();}
     // println!("== ChaCha20/Poly1305 ==");
     // println!("Message: {:?}",msg);
     // println!("Key: {:?}", key);
@@ -99,14 +104,38 @@ pub fn chacha20poly1305_encrypt(user_password: &str, mut msg_input: &str) {
     let mut output: Vec<u8> = repeat(0).take(plain.len()).collect();
     let mut outtag: Vec<u8> = repeat(0).take(16).collect();
     encrypt_cipher.encrypt(&plain[..], &mut output[..], &mut outtag[..]);
-    // println!("\nEncrypted: {}",hex::encode(output.clone()));
+    println!("\nEncrypted: {}\n",hex::encode(output.clone()));
     // println!("\nTag: {}",hex::encode(outtag.clone()));
 
-    let mut decrypt_cipher = crypto::chacha20poly1305::ChaCha20Poly1305::new(&key, iv, aad);
-    let mut newoutput: Vec<u8> = repeat(0).take(output.len()).collect();
-    decrypt_cipher.encrypt(&mut output.clone()[..], &mut newoutput[..], &mut outtag[..]);
-    // println!("\nDecrypted: {}",str::from_utf8(&newoutput[..]).unwrap());
+
+    //Temporarily returning these until i implement pulling these elements from JSON document
+    return (output, outtag);
 }
+
+pub fn chacha20poly1305_decrypt(user_password: &str, encrypted_output:Vec<u8>, mut encrypted_string_outtag: Vec<u8>){
+    println!("DECRYPTING...");
+    let mut key = hex::encode(user_password);
+    key = key_pad(key);
+    let mut my_iv =get_iv(user_password);
+    let my_add ="lots of cum";
+
+    let key=&hex_to_bytes(key)[..];
+    let iv=&hex_to_bytes(my_iv)[..];
+    let aad= my_add.as_bytes();
+
+    let mut decrypt_cipher = crypto::chacha20poly1305::ChaCha20Poly1305::new(&key, iv, aad);
+    let mut newoutput: Vec<u8> = repeat(0).take(encrypted_output.len()).collect();
+    decrypt_cipher.encrypt(&mut encrypted_output.clone()[..], &mut newoutput[..], &mut encrypted_string_outtag[..]);
+    println!("\nDecrypted: {}",str::from_utf8(&newoutput[..]).unwrap());
+
+
+}
+
+
+
+
+
+
 
 
 // pub fn aes_gcm_example(){

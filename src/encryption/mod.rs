@@ -1,2 +1,3 @@
-pub mod encrypt_password;
 mod util;
+pub mod encrypt_string;
+mod encrypt_file;

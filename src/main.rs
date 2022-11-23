@@ -1,15 +1,17 @@
 
 
 mod encryption;
-mod test_encrypt;
 
 
-// pub use crate::encryption::encrypt_password::final_number;
 
-use crate::test_encrypt::chacha20poly1305_encrypt;
+
+use encryption::encrypt_string::chacha20poly1305_encrypt;
+use encryption::encrypt_string::chacha20poly1305_decrypt;
 
 fn main() {
-    chacha20poly1305_encrypt("Elegantmuffin4421121@","this is a message");
+    let (output, outtag) = chacha20poly1305_encrypt("Elegantmuffin4421121@", "this is a message");
+    chacha20poly1305_decrypt("Elegantmuffin4421121@", output, outtag);
+
 
 
 
