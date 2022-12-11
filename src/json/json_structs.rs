@@ -1,12 +1,12 @@
 use serde_derive::{Serialize, Deserialize};
 
-#[derive(Deserialize, Serialize, Debug, Default)]
+#[derive(Deserialize, Serialize, Debug, Default, Clone)]
 pub struct AccountList {
     pub(crate) account_list: Vec<Account>
 
 }
 
-#[derive(Deserialize, Serialize, Debug, Default,PartialEq)]
+#[derive(Deserialize, Serialize, Debug, Default,PartialEq, Clone)]
 pub struct Account {
     pub(crate) website: String,
     pub(crate) username: String,

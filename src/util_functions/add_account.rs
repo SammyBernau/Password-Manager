@@ -1,6 +1,6 @@
 use crate::json::json_structs::{Account, AccountList};
 use crate::chacha20poly1305_encrypt_string;
-use crate::user_functions::check_for_account::check_account_existence;
+use crate::util_functions::check_for_account::check_account_existence;
 
 
 

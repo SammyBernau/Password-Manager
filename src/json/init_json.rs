@@ -6,34 +6,35 @@
 
 use std::fs::{File};
 use std::path::Path;
-
+use crate::Account;
+use crate::json::file_exists::file_exists;
 use crate::json::json_structs::{AccountList};
 
 
-pub fn initialize_json()-> std::io::Result<()>{
+pub fn init_json() -> std::io::Result<()>{
     let password_manager_json = "password_manager_json.json";
 
     if !file_exists(password_manager_json) {
         File::options().read(true).write(true).create_new(true).open(password_manager_json)?;
-        println!("Created Json");
+        //println!("Created Json");
 
 
         //Initialize the json file
-        let account_list = AccountList::default();
+        let mut account_list = AccountList::default();
+
+        //Sets up index 0 of account list which will store the users master password
+        // Website and username fields will be null
+        let master_pass_account = Account {
+            website: "null".to_string(),
+            username: "null".to_string(),
+            password: vec![],
+            tag: vec![]
+        };
+
+        account_list.account_list.push(master_pass_account);
         std::fs::write(password_manager_json, serde_json::to_string(&account_list).unwrap(),)?;
+
     }
     Ok(())
 }
 
-fn file_exists(file_path: &str) -> bool {
-    let from_string = Path::new(&file_path);
-
-    let mut existence: bool = true;
-    existence = Path::new(from_string).exists();
-
-    if existence == true {
-        true
-    } else {
-        false
-    }
-}

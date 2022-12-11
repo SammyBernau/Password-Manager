@@ -72,8 +72,8 @@ fn get_str_middle_char(s: &str)->usize{
 
 
 pub fn chacha20poly1305_encrypt_string(master_password: String, msg_input: String) -> (Vec<u8>, Vec<u8>) {
-    println!("ENCRYPTING...");
-    let my_iv =get_iv(&master_password);
+    //println!("ENCRYPTING...");
+    let my_iv = get_iv(&master_password);
     let key = key_pad(hex::encode(master_password));
     let msg = msg_input;
     let my_add ="lots of cum";
@@ -100,15 +100,15 @@ pub fn chacha20poly1305_encrypt_string(master_password: String, msg_input: Strin
     let mut output: Vec<u8> = repeat(0).take(plain.len()).collect();
     let mut outtag: Vec<u8> = repeat(0).take(16).collect();
     encrypt_cipher.encrypt(plain, &mut output[..], &mut outtag[..]);
-    println!("\nEncrypted: {}\n",hex::encode(output.clone()));
+    //println!("\nEncrypted: {}\n",hex::encode(output.clone()));
     // println!("\nTag: {}",hex::encode(outtag.clone()));
 
     //Temporarily returning these until i implement pulling these elements from JSON document
     return (output, outtag);
 }
 
-pub fn chacha20poly1305_decrypt_string(master_password: String, encrypted_output:Vec<u8>, mut encrypted_string_outtag: Vec<u8>){
-    println!("DECRYPTING...");
+pub fn chacha20poly1305_decrypt_string(master_password: String, encrypted_output:Vec<u8>, mut encrypted_string_outtag: Vec<u8>) ->Vec<u8>{
+    //println!("DECRYPTING...");
     let my_iv =get_iv(&master_password);
     let key = key_pad(hex::encode(master_password));
     let my_add ="lots of cum";
@@ -120,7 +120,9 @@ pub fn chacha20poly1305_decrypt_string(master_password: String, encrypted_output
     let mut decrypt_cipher = crypto::chacha20poly1305::ChaCha20Poly1305::new(key, iv, aad);
     let mut newoutput: Vec<u8> = repeat(0).take(encrypted_output.len()).collect();
     decrypt_cipher.encrypt(&encrypted_output[..], &mut newoutput[..], &mut encrypted_string_outtag[..]);
-    println!("\nDecrypted: {}",str::from_utf8(&newoutput[..]).unwrap());
+    //println!("\nDecrypted: {}",str::from_utf8(&newoutput[..]).unwrap());
+
+    return newoutput;
 }
 
 

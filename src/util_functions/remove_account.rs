@@ -1,5 +1,5 @@
 use crate::{ AccountList};
-use crate::user_functions::check_for_account::check_account_existence;
+use crate::util_functions::check_for_account::check_account_existence;
 
 pub fn remove_account( website: String) -> std::io::Result<()>{
     if check_account_existence(&website) {

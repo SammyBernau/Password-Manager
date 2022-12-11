@@ -4,7 +4,7 @@ use crate::AccountList;
 
 
 
-fn get_account_list() -> AccountList {
+pub fn get_account_list() -> AccountList {
     let mut json_file = File::open("password_manager_json.json").unwrap();
 
     let entire_account_list = {
