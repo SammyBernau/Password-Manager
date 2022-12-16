@@ -1,28 +1,21 @@
-
-use crate::chacha20poly1305_encrypt_string;
 use crate::chacha20poly1305_decrypt_string;
 
 use crate::json::file_exists::file_exists;
-use crate::json::init_json::init_json;
-use crate::util_functions::add_account::add_account;
-use crate::util_functions::check_for_account::check_account_existence;
-use crate::util_functions::check_for_account::get_account_list;
-use crate::util_functions::remove_account::remove_account;
-use crate::ui::temp_global_master_pass::get_master_password;
-use core::str;
-use crate::json::json_structs::{Account, AccountList};
 
-use gtk::glib::boxed::Boxed;
-use gtk::AccessibleProperty::Orientation;
-use gtk::CellRendererAccelMode::Gtk;
+use crate::util_functions::check_for_account::get_account_list;
+
+use core::str;
+
+
+
+
 use gtk::{
-    gio,
     glib::{self, clone},
     prelude::*,
-    Application, ApplicationWindow, Button, CellRendererText, Entry, Grid, Label, ListBox,
-    ListStore, ListView, ResponseType, ScrolledWindow, TreeIter, TreePath, TreeView,
+     CellRendererText,
+    ListStore,TreeView,
 };
-
+use crate::ui::util::temp_global_master_pass::get_master_password;
 
 
 pub fn build_table() -> (TreeView, ListStore) {
@@ -48,14 +41,15 @@ pub fn build_table() -> (TreeView, ListStore) {
             &[(&"text", i.try_into().unwrap())],
         );
 
-        let list_store_copy = list_store.clone();
-        renderer.connect_edited(move |_renderer, row, text| {
-            list_store_copy.set_value(
-                &list_store_copy.iter(&row).unwrap(),
+
+
+        renderer.connect_edited(clone!(@weak list_store => move |_renderer, row, text| {
+            list_store.set_value(
+                &list_store.iter(&row).unwrap(),
                 i.try_into().unwrap(),
                 &text.to_value(),
             );
-        });
+        }));
     }
 
     if file_exists("password_manager_json.json") {
@@ -63,9 +57,10 @@ pub fn build_table() -> (TreeView, ListStore) {
         let mut manager_account_list = manager_account_list_json_struct.account_list;
 
             for account in manager_account_list.iter_mut() {
-                if account.website != "null" && account.username != "null" {
+                if account.website != "master password" && account.username != "master password" {
                     let encrypted_account_pass = account.password.clone();
                     let encrypted_account_tag = account.tag.clone();
+
                     let decrypted_pass = chacha20poly1305_decrypt_string(
                         get_master_password(),
                         encrypted_account_pass,
@@ -77,7 +72,7 @@ pub fn build_table() -> (TreeView, ListStore) {
                         &[
                             (0, &account.website),
                             (1, &account.username),
-                            (2, &str::from_utf8(&decrypted_pass[..]).unwrap())
+                            (2, &String::from_utf8(decrypted_pass).unwrap())
                         ],
                     );
                 }

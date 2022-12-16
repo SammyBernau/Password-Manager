@@ -1,0 +1,11 @@
+//This list goes down from high to low priority
+
+//TODO Fix editing functionality (doesn't save when user exits)
+    //Potential Fix: Look at rewriting to JSON file when save button clicked
+    //Potential Fix: Do nothing (user will just have to recreate an entry with updated info)
+
+//TODO add a disclaimer/HowToWindow at password creation
+
+//TODO CSS styling
+
+//TODO End case to stop duplicate account entries

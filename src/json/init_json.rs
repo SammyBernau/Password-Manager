@@ -5,7 +5,6 @@
 //https://docs.rs/json/latest/json/
 
 use std::fs::{File};
-use std::path::Path;
 use crate::Account;
 use crate::json::file_exists::file_exists;
 use crate::json::json_structs::{AccountList};
@@ -25,8 +24,8 @@ pub fn init_json() -> std::io::Result<()>{
         //Sets up index 0 of account list which will store the users master password
         // Website and username fields will be null
         let master_pass_account = Account {
-            website: "null".to_string(),
-            username: "null".to_string(),
+            website: "master password".to_string(),
+            username: "master password".to_string(),
             password: vec![],
             tag: vec![]
         };

@@ -12,7 +12,7 @@ use rustc_serialize::hex::FromHex;
 use core::str;
 use std::iter::repeat;
 use hex;
-use chacha20poly1305::{aead::{Aead,KeyInit}};
+// use chacha20poly1305::{aead::{Aead,KeyInit}};
 
 
 
