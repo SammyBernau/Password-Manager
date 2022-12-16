@@ -1,1 +1,1 @@
-pub mod encrypt_string;
+pub mod string_encrypt;

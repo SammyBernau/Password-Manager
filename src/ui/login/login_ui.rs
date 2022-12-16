@@ -1,11 +1,5 @@
 use crate::chacha20poly1305_encrypt_string;
-
-
-
-
-
 use crate::util_functions::check_for_account::get_account_list;
-
 use crate::ui::table::table_ui::table_ui;
 use crate::ui::util::temp_global_master_pass::set_master_password;
 

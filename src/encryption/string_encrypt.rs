@@ -1,12 +1,3 @@
-//Both examples but second link looks better
-//https://asecuritysite.com/symmetric/rust_chacha20poly
-//https://medium.com/asecuritysite-when-bob-met-alice/the-near-perfect-encryption-method-and-the-best-programming-lanaguage-meet-aes-gcm-and-rust-33ef68c06677
-
-
-
-//https://github.com/skerkour/kerkour.com/blob/main/2021/rust_file_encryption/src/main.rs
-
-
 use crypto::{aead::AeadEncryptor};
 use rustc_serialize::hex::FromHex;
 use core::str;
@@ -48,7 +39,7 @@ pub fn get_iv(user_password: &String) -> String {
     let middle_char = user_password.chars().nth(get_str_middle_char(user_password)).unwrap();
 
     let mut iv_start = "".to_string();
-    iv_start.push(first_char); 
+    iv_start.push(first_char);
     iv_start.push(end_char);
     iv_start.push(middle_char);
 
@@ -123,8 +114,3 @@ pub fn chacha20poly1305_decrypt_string(master_password: String, encrypted_output
 
     return newoutput;
 }
-
-
-
-
-

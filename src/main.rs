@@ -5,8 +5,8 @@ mod ui;
 
 
 
-use encryption::encrypt_string::chacha20poly1305_decrypt_string;
-use encryption::encrypt_string::chacha20poly1305_encrypt_string;
+use encryption::string_encrypt::chacha20poly1305_decrypt_string;
+use encryption::string_encrypt::chacha20poly1305_encrypt_string;
 use crate::ui::build_ui::build_ui;
 use crate::json::json_structs::{Account, AccountList};
 use gtk::{
