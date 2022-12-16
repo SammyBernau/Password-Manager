@@ -16,6 +16,7 @@ use gtk::{
     ListStore,TreeView,
 };
 use crate::ui::util::temp_global_master_pass::get_master_password;
+use crate::util_functions::json_path::get_json_path;
 
 
 pub fn build_table() -> (TreeView, ListStore) {
@@ -52,7 +53,7 @@ pub fn build_table() -> (TreeView, ListStore) {
         }));
     }
 
-    if file_exists("password_manager_json.json") {
+    if file_exists(get_json_path()) {
         let manager_account_list_json_struct = get_account_list();
         let mut manager_account_list = manager_account_list_json_struct.account_list;
 

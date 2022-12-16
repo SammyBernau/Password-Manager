@@ -1,5 +1,6 @@
 use crate::chacha20poly1305_encrypt_string;
 use crate::util_functions::check_for_account::get_account_list;
+use crate::util_functions::json_path::get_json_path;
 
 pub fn set_master_pass_json(master_pass: String) {
 
@@ -12,6 +13,6 @@ pub fn set_master_pass_json(master_pass: String) {
     account_list.account_list[0].password = encrypted_master_pass.clone();
     account_list.account_list[0].tag = encrypted_master_pass_tag.clone();
 
-    std::fs::write("password_manager_json.json", serde_json::to_string(&account_list).unwrap()).expect("File save failed");
+    std::fs::write(get_json_path(), serde_json::to_string(&account_list).unwrap()).expect("File save failed");
 
 }

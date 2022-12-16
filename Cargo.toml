@@ -1,16 +1,24 @@
 [package]
 name = "password_manager"
+#name = "Sammy_Safe"
+#change to "Sammy_Safe" when build release
 version = "0.1.0"
+authors = ["Sam Bernau"]
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+# Set the target to "x86_64-apple-darwin"
+
+
+
 
 [dependencies]
-
+cargo-bundle = "0.6.0"
 #JSON utils
 serde_json = "1.0.59"
 serde_derive = "1.0.117"
 serde = "1.0.117"
+lazy_static = "1.4"
 
 #Encryption utils
 chacha20poly1305 = "0.10.1"
@@ -35,4 +43,12 @@ adw = { version = "0.2.1", package = "libadwaita" }
 [dependencies.async-tls]
 version = "0.6"
 optional = true
+
+#[[bin]]
+#name = "Sammy_Safe"
+#path = "src/main.rs"
+##crate-type = ["macos"]
+#bundle = []
+#[target.'cfg(target_os = "macos")'.dependencies]
+#[target.'cfg(target_os = "macos")'.features]
 

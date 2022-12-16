@@ -1,11 +1,11 @@
 use std::fs::File;
 use std::io::Read;
 use crate::AccountList;
-
+use crate::util_functions::json_path::get_json_path;
 
 
 pub fn get_account_list() -> AccountList {
-    let mut json_file = File::open("password_manager_json.json").unwrap();
+    let mut json_file = File::open(get_json_path()).unwrap();
 
     let entire_account_list = {
         let mut json_data = String::new();

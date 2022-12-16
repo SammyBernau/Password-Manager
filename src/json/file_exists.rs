@@ -1,15 +1,5 @@
-use std::path::Path;
+use std::path::{Path, PathBuf};
 
-
-
-pub(crate) fn file_exists(file_path: &str) -> bool {
-    let from_string = Path::new(&file_path);
-
-    let existence = Path::new(from_string).exists();
-
-    if existence == true {
-        true
-    } else {
-        false
-    }
+pub(crate) fn file_exists(file_path: PathBuf) -> bool {
+    return file_path.exists();
 }

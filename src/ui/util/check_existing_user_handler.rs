@@ -6,15 +6,10 @@ use crate::ui::login::login_ui::login_ui;
 use gtk::{
     prelude::*
 };
-
-
-
-
-
-
+use crate::util_functions::json_path::get_json_path;
 
 pub fn check_for_existing_user(application: &adw::Application) {
-    if !file_exists("password_manager_json.json") {
+    if !file_exists(get_json_path()) {
         init_json().expect("JSON init failed");
     }
 

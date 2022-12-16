@@ -5,18 +5,15 @@
 //https://docs.rs/json/latest/json/
 
 use std::fs::{File};
+use serde_json::json;
 use crate::Account;
 use crate::json::file_exists::file_exists;
 use crate::json::json_structs::{AccountList};
-
+use crate::util_functions::json_path::get_json_path;
 
 pub fn init_json() -> std::io::Result<()>{
-    let password_manager_json = "password_manager_json.json";
-
-    if !file_exists(password_manager_json) {
-        File::options().read(true).write(true).create_new(true).open(password_manager_json)?;
-        //println!("Created Json");
-
+    if !file_exists(get_json_path()) {
+        File::options().read(true).write(true).create_new(true).open(get_json_path())?;
 
         //Initialize the json file
         let mut account_list = AccountList::default();
@@ -31,9 +28,8 @@ pub fn init_json() -> std::io::Result<()>{
         };
 
         account_list.account_list.push(master_pass_account);
-        std::fs::write(password_manager_json, serde_json::to_string(&account_list).unwrap(),)?;
-
+        std::fs::write(get_json_path(), serde_json::to_string(&account_list).unwrap(),)?;
     }
     Ok(())
 }
-
+//absolute file path to where exec is run....save json
