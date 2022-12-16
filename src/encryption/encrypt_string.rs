@@ -12,7 +12,6 @@ use rustc_serialize::hex::FromHex;
 use core::str;
 use std::iter::repeat;
 use hex;
-// use chacha20poly1305::{aead::{Aead,KeyInit}};
 
 
 
@@ -76,7 +75,7 @@ pub fn chacha20poly1305_encrypt_string(master_password: String, msg_input: Strin
     let my_iv = get_iv(&master_password);
     let key = key_pad(hex::encode(master_password));
     let msg = msg_input;
-    let my_add ="lots of cum";
+    let my_add ="I love tarkov";
 
     // MAY NOT BE NEEDED
     // let args: Vec<String> = env::args().collect();
@@ -111,7 +110,7 @@ pub fn chacha20poly1305_decrypt_string(master_password: String, encrypted_output
     //println!("DECRYPTING...");
     let my_iv =get_iv(&master_password);
     let key = key_pad(hex::encode(master_password));
-    let my_add ="lots of cum";
+    let my_add ="I love tarkov";
 
     let key=&hex_to_bytes(key)[..];
     let iv=&hex_to_bytes(my_iv)[..];
