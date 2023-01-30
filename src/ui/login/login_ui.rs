@@ -1,24 +1,12 @@
-use crate::chacha20poly1305_encrypt_string;
-use crate::util_functions::check_for_account::get_account_list;
 use crate::ui::table::table_ui::table_ui;
 use crate::ui::util::temp_global_master_pass::set_master_password;
-
-
-
-
-
-
-
-
-
+use crate::util_functions::check_for_account::get_account_list;
+use crate::encryption::hash::string_hash;
 use gtk::{
-
     glib::{self, clone},
     prelude::*,
-     ApplicationWindow, Button,Entry, Grid, Label
+    ApplicationWindow, Button, Entry, Grid, Label,
 };
-
-
 
 pub fn login_ui(application: &adw::Application) -> ApplicationWindow {
     let login_window = ApplicationWindow::new(application);
@@ -76,23 +64,20 @@ pub fn login_ui(application: &adw::Application) -> ApplicationWindow {
 
     error_label.set_label("Login");
 
-
-
-
     login_button.connect_clicked(clone!(@weak login_window, @weak application, @weak password_entry, @weak error_label => move |_|{
         let password_text = password_entry.text();
         if !password_text.is_empty() {
             let password_text_clone = password_text.clone();
 
-            //encrypt user entered pass for comparison to stored pass
-            let (user_entered_encrypted_master_pass, _user_entered_encrypted_master_pass_tag) = chacha20poly1305_encrypt_string(
-                password_text.parse().unwrap(),
-                password_text.parse().unwrap());
+            //get the stored hashed user master password
             let manager_account_list_json_struct = get_account_list();
             let stored_master_pass = manager_account_list_json_struct.account_list[0].password.clone();
 
+            //hash user entered pass for password validation
+            let hashed_user_entered_master_pass = string_hash(password_text.parse().unwrap());
+
             //Validate user entered master password
-            if user_entered_encrypted_master_pass == stored_master_pass {
+            if hashed_user_entered_master_pass == stored_master_pass {
                 set_master_password(password_text_clone.parse().unwrap());
                 let table_window = table_ui(&application);
                 login_window.close();
@@ -130,7 +115,7 @@ pub fn login_ui(application: &adw::Application) -> ApplicationWindow {
     //add reset password to login_ui
     login_cancel_grid.attach(&login_button.clone(), 0, 0, 1, 1);
     login_cancel_grid.attach(&login_window_cancel_button, 1, 0, 1, 1);
-    password_entry_grid.attach(&error_label, 0, 0, 1,1);
+    password_entry_grid.attach(&error_label, 0, 0, 1, 1);
     login_top_layer_grid.attach(&login_cancel_grid, 1, 2, 1, 1);
 
     return login_window;

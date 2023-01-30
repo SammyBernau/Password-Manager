@@ -3,15 +3,13 @@ use crate::util_functions::set_master_pass_json::set_master_pass_json;
 use gtk::{
     glib::{self, clone},
     prelude::*,
-     ApplicationWindow, Button, Entry, Grid, Label
+    ApplicationWindow, Button, Entry, Grid, Label,
 };
 
-
 pub fn create_pass_ui(application: &adw::Application) {
-
     let create_pass_window = ApplicationWindow::new(application);
     create_pass_window.set_title(Some("Sammy's Safe Create Password"));
-    create_pass_window.set_default_size(400,150);
+    create_pass_window.set_default_size(400, 150);
 
     let top_layer_grid = Grid::builder()
         .margin_bottom(10)
@@ -47,9 +45,8 @@ pub fn create_pass_ui(application: &adw::Application) {
 
     // create_pass_entry.set_invisible_char(Some('*'));
 
-    password_entry_grid.attach(&create_pass_entry, 0, 1, 1,1 );
+    password_entry_grid.attach(&create_pass_entry, 0, 1, 1, 1);
     password_entry_grid.attach(&create_pass_entry_compare, 0, 2, 1, 1);
-
 
     let ok_button = Button::builder()
         .label("Ok")
@@ -72,8 +69,6 @@ pub fn create_pass_ui(application: &adw::Application) {
 
     error_label.set_text("Please enter a password");
 
-
-
     top_layer_grid.attach(&error_label, 1, 0, 1, 1);
     top_layer_grid.attach(&password_entry_grid, 1, 1, 1, 1);
     top_layer_grid.attach(&ok_button, 1, 2, 1, 1);
@@ -84,19 +79,17 @@ pub fn create_pass_ui(application: &adw::Application) {
         @weak create_pass_entry_compare,
         @weak error_label,
         @weak application => move |_|{
+
+            //Check that both entries of user password match
             if create_pass_entry.text() == create_pass_entry_compare.text() {
                 let create_pass_text = create_pass_entry.text();
+
+                //Check that the user actually entered a password
                 if !create_pass_text.is_empty() {
                     let login_window = login_ui(&application);
 
                     set_master_pass_json(create_pass_text.parse().unwrap());
-                    // let (encrypted_master_pass, encrypted_master_pass_tag) = chacha20poly1305_encrypt_string(
-                    //     create_pass_text.parse().unwrap(),
-                    //     create_pass_text.parse().unwrap(),);
-                    // let mut manager_account_list_json_struct = get_account_list();
-                    // manager_account_list_json_struct.account_list[0].password = encrypted_master_pass.clone();
-                    // manager_account_list_json_struct.account_list[0].tag = encrypted_master_pass_tag.clone();
-                    // std::fs::write("password_manager_json.json", serde_json::to_string(&manager_account_list_json_struct).unwrap());
+
                     create_pass_window.close();
                     login_window.show();
                 } else {

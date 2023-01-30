@@ -1,6 +1,3 @@
-
-
-
 pub(crate) static mut MASTER_PASSWORD: String = String::new();
 
 pub fn set_master_password(password: String) {
@@ -10,7 +7,5 @@ pub fn set_master_password(password: String) {
 }
 
 pub fn get_master_password() -> String {
-    unsafe {
-        MASTER_PASSWORD.clone()
-    }
+    unsafe { MASTER_PASSWORD.clone() }
 }

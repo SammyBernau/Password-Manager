@@ -1,1 +1,2 @@
-pub mod string_encrypt;
+pub mod hash;
+pub mod aes_encryption;

@@ -1,19 +1,11 @@
 mod encryption;
 mod json;
-mod util_functions;
 mod ui;
-
-
-
-use encryption::string_encrypt::chacha20poly1305_decrypt_string;
-use encryption::string_encrypt::chacha20poly1305_encrypt_string;
-use crate::ui::build_ui::build_ui;
+mod util_functions;
 use crate::json::json_structs::{Account, AccountList};
-use gtk::{
-    prelude::*
-};
-
-
+use crate::ui::build_ui::build_ui;
+use crate::encryption::aes_encryption::{aes_string_decryption, aes_string_encryption};
+use gtk::prelude::*;
 
 const APP_ID: &str = "org.sambernau.password.manager";
 
@@ -26,7 +18,5 @@ fn main() {
 
     // Run the application
     app.run();
+
 }
-
-
-
