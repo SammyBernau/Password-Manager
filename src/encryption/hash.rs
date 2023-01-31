@@ -1,3 +1,7 @@
+//Useful sources
+//https://docs.rs/base64ct/latest/base64ct/#traits
+//https://github.com/RustCrypto/AEADs/blob/master/aes-gcm/src/lib.rs
+
 use hex_literal::hex;
 use sha2::{Sha256, Digest};
 use base64ct::{Base64, Encoding};
